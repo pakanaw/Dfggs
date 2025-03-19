@@ -2583,7 +2583,7 @@ end)
 
 Tabs.Gold:AddParagraph({
     Title = "Auto Tab In Paid Version",
-    Content = "Auto Rebirth - Auto Gold Farm - Auto Kill Titan-Samurai-Kraken / And more in paid version."
+    Content = "Auto Rebirth - Auto Gold Farm - Auto Kill Titan/Samurai/Kraken \And more in paid version/"
 })
 
 -- Settings
