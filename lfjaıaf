@@ -1097,13 +1097,6 @@ end)
 
 
 
-
-
-
-
-
-
-
 local function findNearestStructure(playerPosition)
 
 local nearest = nil
@@ -1486,8 +1479,6 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function(character)
         })
     end
 end)
-
-
 
 
 
@@ -2697,7 +2688,7 @@ local Toggle = Tabs.Esp:AddToggle("Merchants", {Title = "Merchant Esp", Default 
 Toggle:OnChanged(function()
     if Toggle.Value then
         for _, merchant in ipairs(merchants) do
-            createESP(merchant.position, merchant.name)
+            createESP(merchat.position, merchant.name)
         end
     else
         for _, merchant in ipairs(merchants) do
@@ -2715,189 +2706,9 @@ end)
 -- Auto Tab
 
 Tabs.Gold:AddParagraph({
-    Title = "WARNING!",
-    Content = "Not Works In All Servers and Prıvate Servers"
+    Title = "Auto Tab In Paid Version",
+    Content = "Auto Rebirth - Auto Gold Farm - Auto Kill Titan-Samurai-Kraken / And more in paid version."
 })
-
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local RunService = game:GetService("RunService")
-local Workspace = game:GetService("Workspace")
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-local humanoid = character:WaitForChild("Humanoid")
-local pickupItemRemote = ReplicatedStorage:WaitForChild("remoteInterface"):WaitForChild("inventory"):WaitForChild("pickupItem")
-local remoteInterface = ReplicatedStorage:WaitForChild("remoteInterface")
-local pickupRadius = 50
-local miningRadius = 10
-local validOreNames = { "Gold Vein" }
-
-local seats = {
-    Vector3.new(-2027.9293212890625, 34.075939178466797, -56.84083557128906),
-    Vector3.new(-516.262939453125, 28.64301872253418, -1695.4317626953125),
-    Vector3.new(-552.7610473632812, 27.778621673583984, -1702.5064697265625),
-    Vector3.new(-507.1763916015625, 26.45990562438965, -2104.33447265625),
-    Vector3.new(-527.056396484375, 27.758419036865234, -2077.894287109375),
-    Vector3.new(-1450.246337890625, 38.815032958984375, -1758.6822509765625),
-    Vector3.new(-1907.17333984375, 39.83132553100586, -1973.03564453125),
-    Vector3.new(-1876.526611328125, 34.435924530029297, -1968.1126708984375),
-    Vector3.new(-2201.88134765625, 48.9340934753418, 21.052490234375),
-    Vector3.new(-2009.3316650390625, 33.921506881713867, -54.457275390625),
-    Vector3.new(-2472.310546875, 32.248058319091797, 573.1316528320312),
-    Vector3.new(-1904.3253173828125, 70.64764404296875, 883.819580078125),
-    Vector3.new(-1400.6246337890625, 23.614192962646484, -396.8758239746094),
-    Vector3.new(57.06728744506836, 129.66314697265625, -1033.1336669921875),
-    Vector3.new(-83.85060119628906, 128.19210052490234, -815.622802734375),
-    Vector3.new(458.51470947265625, 104.49313354492188, -450.033203125),
-    Vector3.new(-257.0934753417969, 52.148590087890625, 1428.722900390625),
-    Vector3.new(254.77304077148438, 28.3398380279541, 821.5968017578125),
-    Vector3.new(243.41091918945312, 26.327388763427734, 814.1744995117188),
-    Vector3.new(254.32733154296875, 51.94569396972656, 479.680908203125),
-    Vector3.new(257.3832702636719, 47.50262451171875, 461.9660949707031),
-    Vector3.new(-545.1298828125, 79.49266052246094, 295.71441650390625),
-    Vector3.new(-652.5350341796875, 230.5613555908203, 640.930419921875),
-    Vector3.new(-662.6375122070312, 231.2249298095703, 650.5949096679688),
-    Vector3.new(-749.8121337890625, 38.40940475463867, -127.40174102783203),
-    Vector3.new(-743.3014526367188, 36.628746032714844, -145.69912719726562),
-    Vector3.new(-906.50634765625, 128.79803466796875, -409.41400146484375),
-    Vector3.new(1635.9415283203125, 28.25177001953125, -655.3259887695312),
-    Vector3.new(1567.390869140625, 26.09427833557129, -935.9376831054688),
-    Vector3.new(1679.0355224609375, 44.95698928833008, -908.5970458984375),
-    Vector3.new(1677.8177490234375, 44.03765869140625, -921.0919799804688),
-    Vector3.new(1236.37646484375, 28.563400268554688, -895.0894165039062),
-    Vector3.new(1168.456298828125, 31.80534553527832, -605.278564453125),
-    Vector3.new(1182.696044921875, 31.140169143676758, -599.6692504882812),
-    Vector3.new(1193.0386962890625, 22.886157989501953, -574.3853149414062),
-    Vector3.new(1194.0174560546875, 24.502094268798828, -555.3908081054688),
-    Vector3.new(1849.173583984375, 32.175373077392578, 2451.483642578125),
-    Vector3.new(1822.48095703125, 39.627845764160156, 2469.974609375),
-    Vector3.new(1450.5982666015625, 38.4294319152832, 2400.645263671875),
-    Vector3.new(1742.9444580078125, 109.98089599609375, 2290.16015625),
-    Vector3.new(1722.467529296875, 113.18167114257812, 2284.153076171875),
-    Vector3.new(1730.1649169921875, 110.54853820800781, 2267.723388671875),
-    Vector3.new(1719.5994873046875, 115.58321380615234, 2257.302978515625)
-}
-
-local function getDistance(position1, position2)
-    return (position1 - position2).Magnitude
-end
-
-local function removeWater()
-    for _, part in pairs(Workspace:GetChildren()) do
-        if part:IsA("Part") and part.Name == "Water" then
-            part:Destroy()
-        end
-    end
-end
-
-local function autoPickup()
-    local position = humanoidRootPart.Position
-    for _, item in pairs(Workspace.droppedItems:GetChildren()) do
-        if item:IsA("Part") then
-            local distance = getDistance(item.Position, position)
-            if distance <= pickupRadius then
-                pickupItemRemote:FireServer(item)
-            end
-        end
-    end
-end
-
-local function mineObject(object)
-    if object and object.PrimaryPart then
-        local adjustedCFrame = CFrame.new(object.PrimaryPart.Position)
-        remoteInterface.interactions.mine:FireServer(4, object, adjustedCFrame)
-    end
-end
-
-local function autoMine()
-    for _, folder in pairs(Workspace.worldResources.mineable:GetChildren()) do
-        if folder:IsA("Folder") then
-            for _, mineableObject in pairs(folder:GetChildren()) do
-                if table.find(validOreNames, mineableObject.Name) and mineableObject.PrimaryPart then
-                    local distance = getDistance(humanoidRootPart.Position, mineableObject.PrimaryPart.Position)
-                    if distance <= miningRadius then
-                        mineObject(mineableObject)
-                    end
-                end
-            end
-        end
-    end
-end
-
-local function teleportAndSit()
-    local visitedSeats = {}
-    local seatCount = 0
-    while seatCount < #seats do
-        local nearestSeat
-        local minDistance = math.huge
-
-        for _, seatPos in ipairs(seats) do
-            if not visitedSeats[seatPos] then
-                local distance = getDistance(humanoidRootPart.Position, seatPos)
-                if distance < minDistance then
-                    minDistance = distance
-                    nearestSeat = seatPos
-                end
-            end
-        end
-
-        if nearestSeat then
-            local startTime = tick()
-            while tick() - startTime < 2 do
-                character:SetPrimaryPartCFrame(CFrame.new(nearestSeat))
-                wait(0.01)
-            end
-            visitedSeats[nearestSeat] = true
-            seatCount = seatCount + 1
-        else
-            visitedSeats = {}
-        end
-    end
-
-    Fluent:Notify({
-        Title = "All Golds Collected",
-        Content = "Change Server or Wait 7 min.",
-        Duration = 10
-    })
-
-    game:GetService("RunService"):UnbindFromRenderStep("AutoPickupAndMine")
-end
-
-Tabs.Gold:AddButton({
-    Title = "Gold Farm",
-    Description = "",
-    Callback = function()
-        Window:Dialog({
-            Title = "Start Gold Farm",
-            Content = "You sure you want to start Gold Farm?",
-            Buttons = {
-                {
-                    Title = " Start ",
-                    Callback = function()
-                        print("")
-                        RunService.RenderStepped:Connect(function()
-                            autoPickup()
-                            autoMine()
-                        end)
-                        teleportAndSit()
-                    end
-                },
-                {
-                    Title = "Cancel",
-                    Callback = function()
-                        print("")
-                    end
-                }
-            }
-        })
-    end
-})
-
-
-
-
-
 
 -- Settings
 
