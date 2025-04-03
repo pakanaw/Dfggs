@@ -96,7 +96,7 @@ end)
 
 end
 
--- Sekmeler
+-- Tabs
 
 local Tabs = {
 
@@ -204,7 +204,7 @@ end
 
 -- Player Tab
 
-local Speed = 16  -- Default speed is set to 16 to avoid instant speed change upon joining
+local Speed = 16
 local ToggleSpeed = Tabs.Player:AddToggle("FastRunToggle", {Title = "Walk Speed", Default = false })
 
 ToggleSpeed:OnChanged(function()
@@ -422,7 +422,6 @@ userInputService.InputEnded:Connect(function(input)
     end
 end)
 
--- Fly Toggle ekleme
 local Toggle = Tabs.Player:AddToggle("MyToggle", {Title = "Fly Toggle", Default = false})
 
 Toggle:OnChanged(function()
@@ -820,8 +819,6 @@ end)
 
 
 
--- Inside
-
 local player = game.Players.LocalPlayer
 local camera = workspace.CurrentCamera
 local range = 10
@@ -857,7 +854,6 @@ local function initializeCharacter()
 
         local targetRoot = targetCharacter.HumanoidRootPart
 
-        -- Hedefin içine ışınlanma
         rootPart.CFrame = targetRoot.CFrame
         lockCameraToTarget(targetCharacter)
 
@@ -899,8 +895,6 @@ Toggle:OnChanged(function(State)
     end
 end)
 
-
--- Updown
 
 local player = game.Players.LocalPlayer
 
@@ -1029,11 +1023,6 @@ Toggle:OnChanged(function()
 end)
 
 Toggle:SetValue(false)
-
-
-
-
-
 
 
 
@@ -1386,13 +1375,13 @@ end
 
 local itemsToEquip = {
 
-{197, "inventory", 1, "equipHotbar"}, -- Sword
+{197, "inventory", 1, "equipHotbar"},
 
-{200, "inventory", 1, "equipClothing"}, -- Helmet
+{200, "inventory", 1, "equipClothing"},
 
-{201, "inventory", 2, "equipClothing"}, -- Chestplate
+{201, "inventory", 2, "equipClothing"},
 
-{202, "inventory", 3, "equipClothing"} -- Pants
+{202, "inventory", 3, "equipClothing"}
 
 }
 
@@ -1420,6 +1409,9 @@ print("")
 end
 
 })
+
+
+
 
 -- Teleport Tab
 
@@ -1655,6 +1647,8 @@ disableBoatSpeed()
 end
 
 end)
+
+
 
 
 -- Aura Tab
@@ -1994,6 +1988,8 @@ updateCharacter()
 
 
 
+
+
 -- Esp Tab
 
 local player = game.Players.LocalPlayer
@@ -2096,18 +2092,8 @@ Toggle:OnChanged(function(state)
 end)
 
 
-
-
-
-
-
-
-
-
-
-
 ESP_Active = false
-local TextSize = 18  -- Yazı boyutunu artırabiliriz
+local TextSize = 18
 local StrokeTransparency = 0.2
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -2118,7 +2104,6 @@ local function createESP(player)
     if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         local rootPart = player.Character.HumanoidRootPart
 
-        -- BillboardGui oluşturuluyor
         local billboard = Instance.new("BillboardGui")
         billboard.Adornee = rootPart
         billboard.Size = UDim2.new(0, 100, 0, 40)
@@ -2126,18 +2111,16 @@ local function createESP(player)
         billboard.AlwaysOnTop = true
         billboard.Parent = rootPart
 
-        -- İsim etiketi oluşturuluyor
         local nameLabel = Instance.new("TextLabel")
         nameLabel.Size = UDim2.new(1, 0, 1, 0)
         nameLabel.BackgroundTransparency = 1
-        nameLabel.Font = Enum.Font.SourceSansBold  -- Keskin yazı tipi
+        nameLabel.Font = Enum.Font.SourceSansBold
         nameLabel.TextSize = TextSize
         nameLabel.TextStrokeTransparency = StrokeTransparency
         nameLabel.TextColor3 = Color3.new(1, 1, 1)
         nameLabel.Text = player.Name
         nameLabel.Parent = billboard
 
-        -- Takım rengi güncellemesi
         local function updateTeamColor()
             if player.Team then
                 nameLabel.TextColor3 = player.TeamColor.Color
@@ -2149,7 +2132,6 @@ local function createESP(player)
         updateTeamColor()
         player:GetPropertyChangedSignal("Team"):Connect(updateTeamColor)
 
-        -- Mesafeye göre yazı boyutunu ve offset'i ayarlıyoruz
         RunService.RenderStepped:Connect(function()
             if ESP_Active and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
                 local distance = (LocalPlayer.Character.HumanoidRootPart.Position - rootPart.Position).Magnitude
@@ -2206,14 +2188,6 @@ local Toggle = Tabs.Esp:AddToggle("EspToggle", {Title = "Name ESP", Default = fa
 Toggle:OnChanged(function(value)
     toggleESP(value)
 end)
-
-
-
-
-
-
-
-
 
 
 local ESP_Active = false
@@ -2424,9 +2398,6 @@ end)
 
 
 
-
-
-
 local function createESP(position, text)
     local part = Instance.new("Part")
     part.Size = Vector3.new(1, 1, 1)
@@ -2579,12 +2550,17 @@ end)
 
 
 
+
+
 -- Auto Tab
 
 Tabs.Gold:AddParagraph({
     Title = "Auto Tab In Paid Version",
     Content = "Auto Rebirth - Auto Gold Farm - Auto Kill Titan,Samurai,Kraken. And more in paid version!"
 })
+
+
+
 
 -- Settings
 
