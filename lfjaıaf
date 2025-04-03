@@ -2540,7 +2540,7 @@ Toggle:OnChanged(function()
     else
         for _, merchant in ipairs(merchants) do
             for _, part in ipairs(workspace:GetChildren()) do
-                if part:IsA("Part") and part.Position == merchant.position then
+                if part:IsA("Part") and part.position == merchant.position then
                     part:Destroy()
                 end
             end
