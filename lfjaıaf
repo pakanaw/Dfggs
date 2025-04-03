@@ -1776,7 +1776,7 @@ local function stopFlying()
     humanoid.PlatformStand = false
 end
 
-local Toggle = Tabs.Aura:AddToggle("TitanToggle", {Title = "Titan Aura", Default = false})
+local Toggle = Tabs.Aura:AddToggle("TitanToggle", {Title = "Anti Titan", Default = false})
 
 Toggle:OnChanged(function()
     if Toggle.Value then
