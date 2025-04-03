@@ -1732,7 +1732,6 @@ end)
 
 
 
-
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
@@ -1778,25 +1777,23 @@ local function stopFlying()
     humanoid.PlatformStand = false
 end
 
-local TitanToggle = Tabs.Aura:AddToggle("TitanToggle", {Title = "Titan Aura", Default = false})
-local AutoAIToggle = Tabs.Aura:AddToggle("AutoAIToggle", {Title = "AI Aura (Slot 1)", Default = false})
+local Toggle = Tabs.Aura:AddToggle("TitanToggle", {Title = "Titan Aura", Default = false})
 
-TitanToggle:OnChanged(function()
-    if TitanToggle.Value then
+Toggle:OnChanged(function()
+    if Toggle.Value then
+
         player.Character.HumanoidRootPart.CFrame = CFrame.new(
             player.Character.HumanoidRootPart.Position.X,
             player.Character.HumanoidRootPart.Position.Y + 12,
             player.Character.HumanoidRootPart.Position.Z
         )
         startFlying()
-        AutoAIToggle:SetValue(true)
     else
         stopFlying()
-        AutoAIToggle:SetValue(false)
     end
 end)
 
-TitanToggle:SetValue(false)
+Toggle:SetValue(false)
 
 
 
