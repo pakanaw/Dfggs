@@ -1435,7 +1435,7 @@ Tabs.Teleport:AddButton({
     Callback = function()
         if savedName == "" then
             Fluent:Notify({
-                Title = "Player name cannot be empty",
+                Title = "?",
                 Content = "",
                 Duration = 5
             })
