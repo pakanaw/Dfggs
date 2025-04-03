@@ -2535,7 +2535,7 @@ local Toggle = Tabs.Esp:AddToggle("Merchants", {Title = "Merchant Esp", Default 
 Toggle:OnChanged(function()
     if Toggle.Value then
         for _, merchant in ipairs(merchants) do
-            createESP(merchat.position, merchant.name)
+            createESP(merchant.position, merchant.name)
         end
     else
         for _, merchant in ipairs(merchants) do
