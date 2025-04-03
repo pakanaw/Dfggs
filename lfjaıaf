@@ -1431,7 +1431,7 @@ local Input = Tabs.Teleport:AddInput("Input", {
 
 Tabs.Teleport:AddButton({
     Title = "Player Tp",
-    Description = "Use if server doesn't teleport back.",
+    Description = "",
     Callback = function()
         if savedName == "" then
             Fluent:Notify({
